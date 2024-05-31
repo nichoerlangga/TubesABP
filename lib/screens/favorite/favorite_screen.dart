@@ -34,7 +34,7 @@ class FavoriteScreen extends StatelessWidget {
                     context,
                     DetailsScreen.routeName,
                     arguments:
-                        ProductDetailsArguments(product: demoProducts[index]),
+                    ProductDetailsArguments(product: demoProducts[index]),
                   ),
                 ),
               ),
