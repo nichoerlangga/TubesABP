@@ -1,0 +1,4 @@
+#Wed May 29 18:55:47 WIB 2024
+base.0=C\:\\NIKONI\\Kuliah\\Semester 6\\ABP\\TUBES\\E-commerce-Complete-Flutter-UI\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

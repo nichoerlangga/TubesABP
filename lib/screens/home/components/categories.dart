@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shop_app/constants.dart';
 
 class Categories extends StatelessWidget {
   const Categories({super.key});
@@ -53,7 +54,7 @@ class CategoryCard extends StatelessWidget {
             height: 56,
             width: 56,
             decoration: BoxDecoration(
-              color: const Color(0xFFFFECDF),
+              color: const Color(0xFF8DBCFA),
               borderRadius: BorderRadius.circular(10),
             ),
             child: SvgPicture.asset(icon),

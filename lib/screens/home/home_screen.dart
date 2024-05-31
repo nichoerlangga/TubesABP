@@ -19,9 +19,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               HomeHeader(),
-              DiscountBanner(),
               Categories(),
-              SpecialOffers(),
               SizedBox(height: 20),
               PopularProducts(),
               SizedBox(height: 20),

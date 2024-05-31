@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/product_card.dart';
+import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Product.dart';
 
 import '../details/details_screen.dart';
@@ -13,8 +14,8 @@ class FavoriteScreen extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            "Favorites",
-            style: Theme.of(context).textTheme.titleLarge,
+            "Wishlist",
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(color: kPrimaryColor), // Replace Colors.red with your desired color
           ),
           Expanded(
             child: Padding(

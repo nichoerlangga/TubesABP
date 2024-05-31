@@ -23,11 +23,6 @@ class SectionTitle extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        TextButton(
-          onPressed: press,
-          style: TextButton.styleFrom(foregroundColor: Colors.grey),
-          child: const Text("See more"),
-        ),
       ],
     );
   }

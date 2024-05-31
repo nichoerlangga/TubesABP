@@ -28,6 +28,9 @@ class _InitScreenState extends State<InitScreen> {
   final pages = [
     const HomeScreen(),
     const FavoriteScreen(),
+    const Center (
+      child: Text("Input Product"),
+    ),
     const Center(
       child: Text("Chat"),
     ),
@@ -72,6 +75,22 @@ class _InitScreenState extends State<InitScreen> {
             ),
             activeIcon: SvgPicture.asset(
               "assets/icons/Heart Icon.svg",
+              colorFilter: const ColorFilter.mode(
+                kPrimaryColor,
+                BlendMode.srcIn,
+              ),
+            ),
+            label: "Fav",
+          ),BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              "assets/icons/plus.svg",
+              colorFilter: const ColorFilter.mode(
+                inActiveIconColor,
+                BlendMode.srcIn,
+              ),
+            ),
+            activeIcon: SvgPicture.asset(
+              "assets/icons/plus.svg",
               colorFilter: const ColorFilter.mode(
                 kPrimaryColor,
                 BlendMode.srcIn,

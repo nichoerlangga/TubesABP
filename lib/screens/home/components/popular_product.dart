@@ -14,7 +14,7 @@ class PopularProducts extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: SectionTitle(
             title: "Popular Products",
             press: () {
@@ -22,17 +22,19 @@ class PopularProducts extends StatelessWidget {
             },
           ),
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              ...List.generate(
-                demoProducts.length,
-                (index) {
-                  if (demoProducts[index].isPopular) {
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: ProductCard(
+        SizedBox(
+          height: 500, // Set an appropriate height for your list
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Wrap(
+              spacing: 20, // Space between each item
+              runSpacing: 20, // Space between each line
+              children: [
+                ...List.generate(
+                  demoProducts.length,
+                      (index) {
+                    if (demoProducts[index].isPopular) {
+                      return ProductCard(
                         product: demoProducts[index],
                         onPress: () => Navigator.pushNamed(
                           context,
@@ -40,18 +42,15 @@ class PopularProducts extends StatelessWidget {
                           arguments: ProductDetailsArguments(
                               product: demoProducts[index]),
                         ),
-                      ),
-                    );
-                  }
-
-                  return const SizedBox
-                      .shrink(); // here by default width and height is 0
-                },
-              ),
-              const SizedBox(width: 20),
-            ],
+                      );
+                    }
+                    return const SizedBox.shrink(); // Default width and height is 0
+                  },
+                ),
+              ],
+            ),
           ),
-        )
+        ),
       ],
     );
   }
