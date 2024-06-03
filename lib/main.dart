@@ -1,11 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_app/firebase_options.dart';
 import 'package:shop_app/screens/splash/splash_screen.dart';
 
 import 'routes.dart';
 import 'theme.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
+
+
 }
 
 class MyApp extends StatelessWidget {

@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/home/home_screen.dart';
 
 import '../../../components/custom_surfix_icon.dart';
 import '../../../components/form_error.dart';
@@ -13,6 +15,8 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String _errorMessage = '';
   final _formKey = GlobalKey<FormState>();
   String? email;
   String? password;
@@ -20,6 +24,20 @@ class _SignUpFormState extends State<SignUpForm> {
   bool remember = false;
   final List<String?> errors = [];
 
+  Future<void> _signup() async {
+    try {
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email.toString(), password: password.toString());
+      if (userCredential.user != null) {
+        Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomeScreen())
+        );
+      }
+    } catch (e) {
+      setState() {
+        _errorMessage = e.toString();
+      };
+    }
+  }
   void addError({String? error}) {
     if (!errors.contains(error)) {
       setState(() {

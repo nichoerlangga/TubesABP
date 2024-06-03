@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import '../../../components/custom_surfix_icon.dart';
@@ -21,6 +22,7 @@ class _SignFormState extends State<SignForm> {
   bool? remember = false;
   final List<String?> errors = [];
 
+
   void addError({String? error}) {
     if (!errors.contains(error)) {
       setState(() {
@@ -36,6 +38,10 @@ class _SignFormState extends State<SignForm> {
       });
     }
   }
+
+//   Future<void> insert() async {
+//
+// }
 
   @override
   Widget build(BuildContext context) {

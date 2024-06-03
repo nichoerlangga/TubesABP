@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import '../../../components/custom_surfix_icon.dart';
 import '../../../components/form_error.dart';
 import '../../../constants.dart';
 import '../../otp/otp_screen.dart';
+import '../../home/home_screen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:io';
+import 'package:http/io_client.dart';
 
 class CompleteProfileForm extends StatefulWidget {
   const CompleteProfileForm({super.key});
@@ -19,6 +25,54 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   String? lastName;
   String? phoneNumber;
   String? address;
+
+
+  Future<http.Client> createHttpClient() async {
+    final ioc = new HttpClient()
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+
+    return IOClient(ioc);
+  }
+
+
+  Future<void> insert() async {
+    if(firstName != "" && lastName != "" && phoneNumber != "" && address != ""){
+      try{
+        String uri= "https://10.0.2.2/api/insert.php";
+
+        var client = await createHttpClient();
+        var res = await client.post(Uri.parse(uri), body: {
+          "name": firstName,
+          "password": lastName,
+          "phone": phoneNumber,
+          "location": address
+        });
+
+        print("Response status: ${res.statusCode}");
+        print("Response body: ${res.body}");
+
+        if (res.statusCode == 200) {
+          var response = jsonDecode(res.body);
+          if (response["success"] == "true") {
+            print("Record berhasil dimasukkan");
+          } else {
+            print("Record gagal dimasukkan");
+          }
+        } else {
+          print("Error: ${res.reasonPhrase}");
+        }
+
+      } catch (e) {
+        print(e);
+      }
+
+    } else {
+      print("Gagal tolong coba lagi");
+      print("Nama = $firstName");
+    }
+  }
+
 
   void addError({String? error}) {
     if (!errors.contains(error)) {
@@ -55,7 +109,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                 addError(error: kNamelNullError);
                 return "";
               }
-              return null;
+              // return null;
             },
             decoration: const InputDecoration(
               labelText: "First Name",
@@ -93,7 +147,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                 addError(error: kPhoneNumberNullError);
                 return "";
               }
-              return null;
+              // return null;
             },
             decoration: const InputDecoration(
               labelText: "Phone Number",
@@ -118,7 +172,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                 addError(error: kAddressNullError);
                 return "";
               }
-              return null;
+              // return null;
             },
             decoration: const InputDecoration(
               labelText: "Address",
@@ -135,7 +189,9 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           ElevatedButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                Navigator.pushNamed(context, OtpScreen.routeName);
+                _formKey.currentState!.save();
+                insert();
+                Navigator.pushNamed(context, HomeScreen.routeName);
               }
             },
             child: const Text("Continue"),
