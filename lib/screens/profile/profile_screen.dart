@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'components/profile_menu.dart';
 import 'components/profile_pic.dart';
+import 'account_detail_screen.dart';
+import 'package:shop_app/constants.dart';
+import '../../screens/input_product/inputPage.dart';
+import '../../screens/chat/chatPage.dart';
+import '../../screens/favorite/favorite_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   static String routeName = "/profile";
@@ -11,7 +16,12 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profile"),
+        leading: Container(), // Remove the back button
+        title: Text(
+          "Profile",
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(color: kPrimaryColor), // Replace kPrimaryColor with your desired color
+        ),
+        centerTitle: true, // Align the title to the center
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -22,22 +32,30 @@ class ProfileScreen extends StatelessWidget {
             ProfileMenu(
               text: "My Account",
               icon: "assets/icons/User Icon.svg",
-              press: () => {},
+              press: () => {
+                Navigator.pushNamed(context, AccountDetailsScreen.routeName)
+              },
             ),
             ProfileMenu(
-              text: "Notifications",
-              icon: "assets/icons/Bell.svg",
-              press: () {},
+              text: "Wishlist",
+              icon: "assets/icons/Heart icon.svg",
+              press: () {
+                Navigator.pushNamed(context, FavoriteScreen.routeName);
+              },
             ),
             ProfileMenu(
-              text: "Settings",
-              icon: "assets/icons/Settings.svg",
-              press: () {},
+              text: "Input Product",
+              icon: "assets/icons/Plus.svg",
+              press: () {
+                Navigator.pushNamed(context, InputProductPage.routeName);
+              },
             ),
             ProfileMenu(
-              text: "Help Center",
-              icon: "assets/icons/Question mark.svg",
-              press: () {},
+              text: "Chat",
+              icon: "assets/icons/Chat bubble icon.svg",
+              press: () {
+                Navigator.pushNamed(context, ChatPage.routeName);
+              },
             ),
             ProfileMenu(
               text: "Log Out",
