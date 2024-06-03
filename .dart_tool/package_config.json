@@ -195,7 +195,7 @@
     },
     {
       "name": "image_picker_ios",
-      "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_ios-0.8.11+2",
+      "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_ios-0.8.12",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -494,7 +494,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-06-03T08:58:17.035753Z",
+  "generated": "2024-06-03T10:50:17.524073Z",
   "generator": "pub",
   "generatorVersion": "3.3.4"
 }

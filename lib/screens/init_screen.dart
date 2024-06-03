@@ -32,7 +32,7 @@ class _InitScreenState extends State<InitScreen> {
     const FavoriteScreen(),
     const InputProductPage(),
     const ChatPage(),
-    const ProfileScreen()
+    ProfileScreen()
   ];
 
   @override

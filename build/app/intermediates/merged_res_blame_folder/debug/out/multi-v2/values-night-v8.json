@@ -4,14 +4,14 @@
             "outputFile": "com.example.demo_app-mergeDebugResources-5:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
-                    "source": "C:\\NIKONI\\Kuliah\\Semester 6\\ABP\\TUBES\\E-commerce-Complete-Flutter-UI\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+                    "source": "C:\\Data\\Tugas\\ABP\\ABPnew\\TubesABP-main\\android\\app\\src\\main\\res\\values-night\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",
-                        "startOffsets": "175,831",
+                        "startOffsets": "172,817",
                         "endLines": "7,16",
                         "endColumns": "12,12",
-                        "endOffsets": "482,997"
+                        "endOffsets": "475,981"
                     },
                     "to": {
                         "startLines": "2,6",
