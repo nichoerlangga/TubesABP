@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../components/custom_surfix_icon.dart';
 import '../../../components/form_error.dart';
 import '../../../constants.dart';
-import '../../complete_profile/complete_profile_screen.dart';
+import '../../login_success/register_success_screen.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});
@@ -14,10 +14,11 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
+  String? name;
+  String? location;
   String? email;
   String? password;
-  String? conform_password;
-  bool remember = false;
+  String? confirm_password;
   final List<String?> errors = [];
 
   void addError({String? error}) {
@@ -43,6 +44,52 @@ class _SignUpFormState extends State<SignUpForm> {
       child: Column(
         children: [
           TextFormField(
+            onSaved: (newValue) => name = newValue,
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                removeError(error: kNameNullError);
+              }
+              return;
+            },
+            validator: (value) {
+              if (value!.isEmpty) {
+                addError(error: kNameNullError);
+                return "";
+              }
+              return null;
+            },
+            decoration: const InputDecoration(
+              labelText: "Name",
+              hintText: "Enter your name",
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
+            ),
+          ),
+          const SizedBox(height: 20),
+          TextFormField(
+            onSaved: (newValue) => location = newValue,
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                removeError(error: kLocationNullError);
+              }
+              return;
+            },
+            validator: (value) {
+              if (value!.isEmpty) {
+                addError(error: kLocationNullError);
+                return "";
+              }
+              return null;
+            },
+            decoration: const InputDecoration(
+              labelText: "Location",
+              hintText: "Enter your location",
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Location point.svg"),
+            ),
+          ),
+          const SizedBox(height: 20),
+          TextFormField(
             keyboardType: TextInputType.emailAddress,
             onSaved: (newValue) => email = newValue,
             onChanged: (value) {
@@ -66,8 +113,6 @@ class _SignUpFormState extends State<SignUpForm> {
             decoration: const InputDecoration(
               labelText: "Email",
               hintText: "Enter your email",
-              // If  you are using latest version of flutter then lable text and hint text shown like this
-              // if you r using flutter less then 1.20.* then maybe this is not working properly
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
             ),
@@ -97,8 +142,6 @@ class _SignUpFormState extends State<SignUpForm> {
             decoration: const InputDecoration(
               labelText: "Password",
               hintText: "Enter your password",
-              // If  you are using latest version of flutter then lable text and hint text shown like this
-              // if you r using flutter less then 1.20.* then maybe this is not working properly
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
             ),
@@ -106,14 +149,14 @@ class _SignUpFormState extends State<SignUpForm> {
           const SizedBox(height: 20),
           TextFormField(
             obscureText: true,
-            onSaved: (newValue) => conform_password = newValue,
+            onSaved: (newValue) => confirm_password = newValue,
             onChanged: (value) {
               if (value.isNotEmpty) {
                 removeError(error: kPassNullError);
-              } else if (value.isNotEmpty && password == conform_password) {
+              } else if (value.isNotEmpty && password == value) {
                 removeError(error: kMatchPassError);
               }
-              conform_password = value;
+              confirm_password = value;
             },
             validator: (value) {
               if (value!.isEmpty) {
@@ -126,10 +169,8 @@ class _SignUpFormState extends State<SignUpForm> {
               return null;
             },
             decoration: const InputDecoration(
-              labelText: "Confirm Password",
+              labelText: "Re-enter Password",
               hintText: "Re-enter your password",
-              // If  you are using latest version of flutter then lable text and hint text shown like this
-              // if you r using flutter less then 1.20.* then maybe this is not working properly
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
             ),
@@ -141,7 +182,7 @@ class _SignUpFormState extends State<SignUpForm> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
-                Navigator.pushNamed(context, CompleteProfileScreen.routeName);
+                Navigator.pushNamed(context, RegisterSuccessScreen.routeName);
               }
             },
             child: const Text("Continue"),
@@ -151,3 +192,14 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 }
+
+// constants.dart
+const String kNameNullError = "Please enter your name";
+const String kLocationNullError = "Please enter your location";
+const String kEmailNullError = "Please enter your email";
+const String kInvalidEmailError = "Please enter a valid email";
+const String kPassNullError = "Please enter your password";
+const String kShortPassError = "Password is too short";
+const String kMatchPassError = "Passwords don't match";
+
+// custom_surfix_icon.dart and form_error.dart should remain the same
