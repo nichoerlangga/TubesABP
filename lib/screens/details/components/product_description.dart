@@ -23,7 +23,7 @@ class ProductDescription extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Text(
             product.title,
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
         ),
         Align(
@@ -66,26 +66,29 @@ class ProductDescription extends StatelessWidget {
             horizontal: 20,
             vertical: 12,
           ),
-          child: GestureDetector(
-            onTap: () {},
-            child: const Row(
-              children: [
-                Text(
-                  "See More Detail",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600, color: kPrimaryColor),
-                ),
-                SizedBox(width: 5),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12,
-                  color: kPrimaryColor,
-                ),
-              ],
-            ),
-          ),
+          child: Text(
+            'Rp. ' + formatNumberWithDot(product.price),
+            style: TextStyle(color: kPrimaryColor, fontSize: 22, fontWeight: FontWeight.bold),
+          )
         )
       ],
     );
   }
+}
+
+String formatNumberWithDot(int number) {
+  String strNumber = number.toString();
+  String formattedNumber = '';
+
+  int counter = 0;
+  for (int i = strNumber.length - 1; i >= 0; i--) {
+    counter++;
+    formattedNumber = strNumber[i] + formattedNumber;
+    if (counter == 3 && i != 0) {
+      formattedNumber = '.' + formattedNumber;
+      counter = 0;
+    }
+  }
+
+  return formattedNumber;
 }

@@ -30,7 +30,7 @@ class HomeHeader extends StatelessWidget {
               Expanded(
                 child: Text(
                   'Atlas Marketplace',
-                  style: Theme.of(context).textTheme.headline5?.copyWith(
+                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF8DBCFA), // Set your desired color here
                   ),

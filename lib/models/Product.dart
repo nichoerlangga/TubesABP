@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 
 class Product {
-  final int id;
-  final String title, description;
+  final int id, sellerID;
+  final String title, description, condition, category;
   final List<String> images;
-  final List<Color> colors;
-  final double rating, price;
+  final double rating;
+  final int price;
   final bool isFavourite, isPopular;
 
   Product({
     required this.id,
+    required this.sellerID,
     required this.images,
-    required this.colors,
     this.rating = 0.0,
     this.isFavourite = false,
     this.isPopular = false,
     required this.title,
     required this.price,
     required this.description,
+    required this.condition,
+    required this.category,
   });
 }
 
@@ -26,149 +28,125 @@ class Product {
 List<Product> demoProducts = [
   Product(
     id: 1,
+    sellerID: 1,
     images: [
       "assets/images/ps4_console_white_1.png",
       "assets/images/ps4_console_white_2.png",
       "assets/images/ps4_console_white_3.png",
       "assets/images/ps4_console_white_4.png",
     ],
-    colors: [
-      const Color(0xFFF6625E),
-      const Color(0xFF836DB8),
-      const Color(0xFFDECB9C),
-      Colors.white,
-    ],
     title: "Wireless Controller for PS4™",
-    price: 64.99,
+    price: 64999,
     description: description,
     rating: 4.8,
     isFavourite: true,
     isPopular: true,
+    condition: "Baru",
+    category: "Elektronik",
   ),
   Product(
     id: 2,
+    sellerID: 1,
     images: [
       "assets/images/Image Popular Product 2.png",
     ],
-    colors: [
-      const Color(0xFFF6625E),
-      const Color(0xFF836DB8),
-      const Color(0xFFDECB9C),
-      Colors.white,
-    ],
     title: "Nike Sport White - Man Pant",
-    price: 50.5,
+    price: 500000,
     description: description,
     rating: 4.1,
     isPopular: true,
+    condition: "Baru",
+    category: "Pakaian",
   ),
   Product(
     id: 3,
+    sellerID: 2,
     images: [
       "assets/images/glap.png",
     ],
-    colors: [
-      const Color(0xFFF6625E),
-      const Color(0xFF836DB8),
-      const Color(0xFFDECB9C),
-      Colors.white,
-    ],
     title: "Gloves XC Omega - Polygon",
-    price: 36.55,
+    price: 365000,
     description: description,
     rating: 4.1,
     isFavourite: true,
     isPopular: true,
+    condition: "Baru",
+    category: "Pakaian",
   ),
   Product(
     id: 4,
+    sellerID: 2,
     images: [
       "assets/images/wireless headset.png",
     ],
-    colors: [
-      const Color(0xFFF6625E),
-      const Color(0xFF836DB8),
-      const Color(0xFFDECB9C),
-      Colors.white,
-    ],
     title: "Logitech Head",
-    price: 20.20,
+    price: 20000,
     description: description,
     rating: 4.1,
     isFavourite: true,
+    condition: "Baru",
+    category: "Elektronik",
   ),
   Product(
-    id: 1,
+    id: 4,
+    sellerID: 3,
     images: [
       "assets/images/ps4_console_white_1.png",
       "assets/images/ps4_console_white_2.png",
       "assets/images/ps4_console_white_3.png",
       "assets/images/ps4_console_white_4.png",
     ],
-    colors: [
-      const Color(0xFFF6625E),
-      const Color(0xFF836DB8),
-      const Color(0xFFDECB9C),
-      Colors.white,
-    ],
     title: "Wireless Controller for PS4™",
-    price: 64.99,
+    price: 649999,
     description: description,
     rating: 4.8,
     isFavourite: true,
     isPopular: true,
+    condition: "Baru",
+    category: "Elektronik",
   ),
   Product(
-    id: 2,
+    id: 5,
+    sellerID: 3,
     images: [
       "assets/images/Image Popular Product 2.png",
     ],
-    colors: [
-      const Color(0xFFF6625E),
-      const Color(0xFF836DB8),
-      const Color(0xFFDECB9C),
-      Colors.white,
-    ],
     title: "Nike Sport White - Man Pant",
-    price: 50.5,
+    price: 500000,
     description: description,
     rating: 4.1,
     isPopular: true,
+    condition: "Baru",
+    category: "Pakaian",
   ),
   Product(
-    id: 3,
+    id: 6,
+    sellerID: 3,
     images: [
       "assets/images/glap.png",
     ],
-    colors: [
-      const Color(0xFFF6625E),
-      const Color(0xFF836DB8),
-      const Color(0xFFDECB9C),
-      Colors.white,
-    ],
     title: "Gloves XC Omega - Polygon",
-    price: 36.55,
+    price: 365000,
     description: description,
     rating: 4.1,
     isFavourite: true,
     isPopular: true,
+    condition: "Baru",
+    category: "Pakaian",
   ),
   Product(
-    id: 4,
+    id: 7,
+    sellerID: 3,
     images: [
       "assets/images/wireless headset.png",
     ],
-    colors: [
-      const Color(0xFFF6625E),
-      const Color(0xFF836DB8),
-      const Color(0xFFDECB9C),
-      Colors.white,
-    ],
     title: "Logitech Head",
-    price: 20.20,
+    price: 200000,
     description: description,
     rating: 4.1,
     isFavourite: true,
+    condition: "Baru",
+    category: "Elektronik",
   ),
 ];
 

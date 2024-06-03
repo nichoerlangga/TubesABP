@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/screens/cart/cart_screen.dart';
 
 import '../../models/Product.dart';
-import 'components/color_dots.dart';
+import 'components/detail_information.dart';
 import 'components/product_description.dart';
 import 'components/product_images.dart';
 import 'components/top_rounded_container.dart';
@@ -89,7 +89,7 @@ class DetailsScreen extends StatelessWidget {
                   color: const Color(0xFFF6F7F9),
                   child: Column(
                     children: [
-                      ColorDots(product: product),
+                      DetailInformation( product: product),
                     ],
                   ),
                 ),
@@ -105,9 +105,9 @@ class DetailsScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             child: ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, CartScreen.routeName);
+                // Navigator.pushNamed(context, CartScreen.routeName);
               },
-              child: const Text("Add To Cart"),
+              child: const Text("Chat"),
             ),
           ),
         ),
@@ -121,3 +121,5 @@ class ProductDetailsArguments {
 
   ProductDetailsArguments({required this.product});
 }
+
+

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shop_app/screens/details/components/product_description.dart';
 
 import '../constants.dart';
 import '../models/Product.dart';
@@ -47,7 +48,7 @@ class ProductCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "\$${product.price}",
+                  "Rp. ${formatNumberWithDot(product.price)}",
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,

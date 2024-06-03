@@ -26,9 +26,7 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(title: Text("Chat")),
       body: ListView.builder(
         itemCount: chatUsers.length,
-        shrinkWrap: true,
         padding: EdgeInsets.only(top: 16),
-        physics: NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return ConversationList(
             name: chatUsers[index].name,
@@ -42,8 +40,3 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 }
-
-
-
-
-
