@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shop_app/constants.dart';
 
+import '../init_screen.dart';
+
 class InputProductPage extends StatefulWidget {
   static String routeName = "/input_product";
 
@@ -30,7 +32,10 @@ class _InputProductPageState extends State<InputProductPage> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => InitScreen()),
+            )
         ),
         title: Text(
           "Input Product",

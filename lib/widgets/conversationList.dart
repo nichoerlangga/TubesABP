@@ -7,7 +7,7 @@ class ConversationList extends StatefulWidget{
   String imageUrl;
   String time;
   bool isMessageRead;
-  ConversationList({required this.name,required this.messageText,required this.imageUrl,required this.time,required this.isMessageRead});
+  ConversationList({required this.name,required this.messageText,required this.imageUrl,required this.time,required this.isMessageRead, required Null Function() press});
   @override
   _ConversationListState createState() => _ConversationListState();
 }

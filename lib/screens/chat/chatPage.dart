@@ -3,6 +3,8 @@ import 'package:shop_app/models/chatUsersModel.dart';
 import 'package:shop_app/widgets/conversationList.dart';
 import 'package:shop_app/constants.dart';
 
+import '../init_screen.dart';
+
 class ChatPage extends StatefulWidget {
   static String routeName = "/chat_page";
 
@@ -30,7 +32,10 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => InitScreen()),
+          ),
         ),
         title: Text(
           "Chat",
@@ -47,7 +52,7 @@ class _ChatPageState extends State<ChatPage> {
             messageText: chatUsers[index].messageText,
             imageUrl: chatUsers[index].imageURL,
             time: chatUsers[index].time,
-            isMessageRead: (index == 0 || index == 3) ? true : false,
+            isMessageRead: (index == 0 || index == 3) ? true : false, press: () {  },
           );
         },
       ),
