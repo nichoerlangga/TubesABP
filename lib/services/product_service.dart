@@ -48,7 +48,6 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import '../models/Product.dart';
-import 'package:shop_app/services/auth_service.dart';
 
 class ProductService {
 
@@ -127,19 +126,12 @@ class ProductService {
       ).timeout(Duration(seconds: 45));
 
       if (response.statusCode == 200) {
-        final Map<String, dynamic> jsonData = json.decode(response.body);
-        final List<dynamic> productsData = jsonData['products'];
-
-        // Parse the products from the wishlist data
-        List<Product> wishlist = [];
-        for (var item in productsData) {
-          final Product product = Product.fromJson(item);
-          wishlist.add(product);
-        }
-
+        List<dynamic> wishList = json.decode(response.body)['products'];
+        List<Product> wishlist = wishList.map((data) => Product.fromJson(data)).toList();
+        print(wishList);
         return wishlist;
       } else {
-        throw Exception('Failed to load wishlist');
+        throw Exception('Failed to load data');
       }
     } catch (e) {
       print('Error: $e'); // Print the error for debugging

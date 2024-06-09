@@ -35,10 +35,11 @@ final Map<String, WidgetBuilder>  routes = {
   ProfileScreen.routeName: (context) => ProfileScreen(),
   AccountDetailsScreen.routeName: (context) => AccountDetailsScreen(),
   InputProductPage.routeName: (context) => const InputProductPage(),
-  FavoriteScreen.routeName: (context) {
-    final authService = AuthService(); // Initialize AuthService here
-    final userId = authService.userData?['id'];
-    return FavoriteScreen(userId: userId);
-  },
+  // FavoriteScreen.routeName: (context) {
+  //   final authService = AuthService(); // Initialize AuthService here
+  //   final userId = authService.userData?['id'];
+  //   return FavoriteScreen(userId: userId);
+  // },
+  FavoriteScreen.routeName: (context) => FavoriteScreen(),
   ChatPage.routeName: (context) => const ChatPage(),
 };
