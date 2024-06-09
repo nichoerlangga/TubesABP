@@ -19,9 +19,6 @@ class Images {
       images: parsedImages, // Assign the parsed images to the images parameter
     );
   }
-}
-
-class ImageService {
   static Future<List<Images>> fetchImage() async {
     final response = await http.get(Uri.parse('http://192.168.0.104:8000/api/products/home'));
     if (response.statusCode == 200) {

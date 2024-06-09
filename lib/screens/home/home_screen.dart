@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/services/product_service.dart';
@@ -237,8 +238,75 @@ class _PopularProductsState extends State<PopularProducts> {
   }
 }
 
-
-
+// class _PopularProductsState extends State<PopularProducts> {
+//   late Future<List<Product>> futureData;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     futureData = ProductService.fetchProducts();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return FutureBuilder<List<Product>>(
+//       future: futureData,
+//       builder: (context, snapshot) {
+//         if (snapshot.connectionState == ConnectionState.waiting) {
+//           return Center(child: CircularProgressIndicator());
+//         } else if (snapshot.hasError) {
+//           return Center(child: Text('Error: ${snapshot.error}'));
+//         } else {
+//           final List<Product> products = snapshot.data!;
+//
+//           return GridView.builder(
+//             shrinkWrap: true,
+//             physics: NeverScrollableScrollPhysics(),
+//             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//               crossAxisCount: 2,
+//               childAspectRatio: 0.7,
+//               mainAxisSpacing: 20,
+//               crossAxisSpacing: 16,
+//             ),
+//             itemCount: products.length,
+//             itemBuilder: (context, index) {
+//               final Product product = products[index];
+//               // Log the URLs for debugging
+//               print('Product ${product.title} image URLs: ${product.images}');
+//
+//               return FutureBuilder<List<String>?>(
+//                 future: ProductService.fetchImages(product.id),
+//                 builder: (context, snapshot) {
+//                   if (snapshot.connectionState == ConnectionState.waiting) {
+//                     return Center(child: CircularProgressIndicator());
+//                   } else if (snapshot.hasError) {
+//                     return Center(child: Text('Error: ${snapshot.error}'));
+//                   } else if (snapshot.data == null || snapshot.data!.isEmpty) {
+//                     return Center(child: Text('No images found'));
+//                   } else {
+//                     final List<String> images = snapshot.data!;
+//
+//                     return ProductCard(
+//                       product: product,
+//                       onPress: () => Navigator.pushNamed(
+//                         context,
+//                         DetailsScreen.routeName,
+//                         arguments: ProductDetailsArguments(
+//                           product: product,
+//                         ),
+//                       ),
+//                       images: images,
+//                     );
+//                   }
+//                 },
+//               );
+//             },
+//           );
+//         }
+//       },
+//     );
+//   }
+// }
 
 class SectionTitle extends StatelessWidget {
   const SectionTitle({
@@ -267,6 +335,7 @@ class SectionTitle extends StatelessWidget {
     );
   }
 }
+
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -336,6 +405,82 @@ class ProductCard extends StatelessWidget {
     );
   }
 }
+
+// class ProductCard extends StatelessWidget {
+//   final Product product;
+//   final Future<Uint8List> imageData; // Future containing image data
+//   final GestureTapCallback onPress;
+//
+//   const ProductCard({
+//     Key? key,
+//     required this.product,
+//     required this.imageData,
+//     required this.onPress,
+//   }) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: onPress,
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           FutureBuilder<Uint8List>(
+//             future: imageData,
+//             builder: (context, snapshot) {
+//               if (snapshot.connectionState == ConnectionState.waiting) {
+//                 return CircularProgressIndicator(); // Show loading indicator while fetching image data
+//               } else if (snapshot.hasError) {
+//                 return Text('Error: ${snapshot.error}');
+//               } else {
+//                 // Display the image using Image.memory with the retrieved image data
+//                 return Image.memory(
+//                   snapshot.data!,
+//                   width: 150, // Adjust the width as needed
+//                   height: 150, // Adjust the height as needed
+//                   fit: BoxFit.cover, // Adjust the fit as needed
+//                   errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+//                     // Handle image load error
+//                     return Container(
+//                       width: 150,
+//                       height: 150,
+//                       color: Colors.grey[200],
+//                       child: Icon(Icons.error, color: Colors.red),
+//                     );
+//                   },
+//                 );
+//               }
+//             },
+//           ),
+//           const SizedBox(height: 8),
+//           Text(
+//             product.title,
+//             style: Theme.of(context).textTheme.bodyMedium,
+//             maxLines: 2,
+//             overflow: TextOverflow.ellipsis,
+//           ),
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               Text(
+//                 "Rp. ${formatNumberWithDot(product.price)}",
+//                 style: const TextStyle(
+//                   fontSize: 14,
+//                   fontWeight: FontWeight.w600,
+//                   color: kPrimaryColor,
+//                 ),
+//               ),
+//               // Add other widgets as needed
+//             ],
+//           )
+//         ],
+//       ),
+//     );
+//   }
+// }
+//
+//
+
 
 class IconBtnWithCounter extends StatelessWidget {
   const IconBtnWithCounter({
