@@ -28,6 +28,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/auth_provider.dart';
+import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/splash/splash_screen.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'routes.dart';
@@ -42,6 +43,7 @@ void main() {
       child: const MyApp(),
     ),
   );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

@@ -1,14 +1,14 @@
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../services/auth_service.dart';
-import 'components/profile_menu.dart';
-import 'components/profile_pic.dart';
+import '../sign_in/sign_in_screen.dart';
 import 'account_detail_screen.dart';
 import 'package:shop_app/constants.dart';
 import '../../screens/input_product/inputPage.dart';
@@ -17,11 +17,13 @@ import '../../screens/favorite/favorite_screen.dart';
 
 class ProfilePic extends StatefulWidget {
   final String name;
+  final String imageUrl;
 
   const ProfilePic({
-    super.key,
+    Key? key,
     required this.name,
-  });
+    required this.imageUrl,
+  }) : super(key: key);
 
   @override
   _ProfilePicState createState() => _ProfilePicState();
@@ -29,6 +31,36 @@ class ProfilePic extends StatefulWidget {
 
 class _ProfilePicState extends State<ProfilePic> {
   File? _image;
+  bool _isValidImage = false;
+  late AuthService _authService;
+  late int? idUser;
+
+  @override
+  void initState() {
+    super.initState();
+    _authService = Get.put(AuthService());
+    final userData = _authService.userData;
+    idUser = userData["idUser"];
+    debugPrint('Testing image URL: ${widget.imageUrl}');
+    _testImageUrl(widget.imageUrl);
+  }
+
+
+  Future<void> _testImageUrl(String url) async {
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200 && response.headers['content-type']?.startsWith('image/') == true) {
+        debugPrint('Image URL is valid and accessible');
+        setState(() {
+          _isValidImage = true;
+        });
+      } else {
+        debugPrint('Image URL is not accessible or not a valid image, status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Failed to access image URL: $e');
+    }
+  }
 
   Future<void> _pickImage() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -36,12 +68,15 @@ class _ProfilePicState extends State<ProfilePic> {
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
+        _isValidImage = false;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Profile image URL: ${widget.imageUrl}'); // Log the image URL
+
     return Column(
       children: [
         SizedBox(
@@ -52,9 +87,9 @@ class _ProfilePicState extends State<ProfilePic> {
             clipBehavior: Clip.none,
             children: [
               CircleAvatar(
-                backgroundImage: _image == null
-                    ? AssetImage("assets/images/Profile Image.png")
-                    : FileImage(_image!) as ImageProvider,
+                backgroundImage: _image != null
+                    ? FileImage(_image!)
+                    : Image.network("http://192.168.0.104:8000/api/users/${idUser}").image,
               ),
               Positioned(
                 right: -16,
@@ -82,7 +117,7 @@ class _ProfilePicState extends State<ProfilePic> {
         const SizedBox(height: 10),
         Text(
           widget.name,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -92,6 +127,8 @@ class _ProfilePicState extends State<ProfilePic> {
     );
   }
 }
+
+
 
 
 class ProfileMenu extends StatelessWidget {
@@ -136,25 +173,50 @@ class ProfileMenu extends StatelessWidget {
   }
 }
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   static String routeName = "/profile";
+
+  ProfileScreen({Key? key}) : super(key: key);
+
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  String _userName = '';
   final AuthService _authService = Get.put(AuthService());
 
-  ProfileScreen({Key? key});
+  @override
+  void initState() {
+    super.initState();
+    _getUserName();
+  }
+
+  Future<void> _getUserName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userName = prefs.getString('userName') ?? '';
+    });
+  }
+
+  Future<void> _logout() async {
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      SignInScreen.routeName,
+          (Route<dynamic> route) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Container(), // Remove the back button
+        leading: Container(),
         title: Text(
           "Profile",
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge
-              ?.copyWith(color: kPrimaryColor), // Replace kPrimaryColor with your desired color
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(color: kPrimaryColor),
         ),
-        centerTitle: true, // Align the title to the center
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -163,14 +225,19 @@ class ProfileScreen extends StatelessWidget {
             Obx(() {
               final userData = _authService.userData;
               final String? name = userData["name"];
-              return ProfilePic(name: name ?? "Unknown"); // Pass the user's name to ProfilePic
+              final String? imageUrl = userData["image"];
+              final String baseUrl = 'http://192.168.1.26:8000/';
+              return ProfilePic(
+                name: name ?? "Unknown",
+                imageUrl: imageUrl != null ? baseUrl + imageUrl : "",
+              ); // Pass the user's name and imageUrl to ProfilePic
             }),
             const SizedBox(height: 20),
             ProfileMenu(
               text: "My Account",
               icon: "assets/icons/User Icon.svg",
-              press: () => {
-                Navigator.pushNamed(context, AccountDetailsScreen.routeName)
+              press: () {
+                Navigator.pushNamed(context, AccountDetailsScreen.routeName);
               },
             ),
             ProfileMenu(
@@ -197,7 +264,7 @@ class ProfileScreen extends StatelessWidget {
             ProfileMenu(
               text: "Log Out",
               icon: "assets/icons/Log out.svg",
-              press: () {},
+              press: _logout,
             ),
           ],
         ),

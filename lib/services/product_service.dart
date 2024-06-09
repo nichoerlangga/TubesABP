@@ -92,19 +92,29 @@ class ProductService {
     }
   }
 
-  static Future<Uint8List> fetchImages(int productId) async {
-    final response = await http.get(Uri.parse('http://192.168.0.104:8000/api/images/$productId'));
+  // static Future<Uint8List> fetchImages(int productId) async {
+  //   final response = await http.get(Uri.parse('http://192.168.0.104:8000/api/images/$productId'));
+  //
+  //   if (response.statusCode == 200) {
+  //     // If the server returns a 200 OK response, return the image data
+  //     return response.bodyBytes;
+  //   } else {
+  //     // If the server returns an error response, throw an exception
+  //     throw Exception('Failed to load images');
+  //   }
+  // }
 
-    if (response.statusCode == 200) {
-      // If the server returns a 200 OK response, return the image data
-      return response.bodyBytes;
-    } else {
-      // If the server returns an error response, throw an exception
-      throw Exception('Failed to load images');
+  static Future<Uint8List> fetchProductImage(int productId) async {
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/images/$productId'));
+      if (response.statusCode == 200) {
+        return response.bodyBytes;
+      } else {
+        throw Exception('Failed to load image');
+      }
+    } catch (e) {
+      throw Exception('Failed to fetch image: $e');
     }
   }
-
-
-
 
 }

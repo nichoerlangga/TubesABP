@@ -136,7 +136,7 @@ String formatNumberWithDot(int number) {
 }
 
 class ProductImages extends StatelessWidget {
-  final Product? product;
+  final Product product;
 
   const ProductImages({required this.product});
 
@@ -156,7 +156,7 @@ class ProductImages extends StatelessWidget {
             aspectRatio: 1,
             child: Hero(
               tag: product!.id.toString(),
-              child: Image.asset(product!.images![0]), // Access images list with null safety
+              child: Image.network("http://192.168.0.104:8000/api/images/${product.id}"), // Access images list with null safety
             ),
           ),
         ),

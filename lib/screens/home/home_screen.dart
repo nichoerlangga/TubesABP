@@ -180,7 +180,6 @@ class PopularProducts extends StatefulWidget {
   @override
   _PopularProductsState createState() => _PopularProductsState();
 }
-
 class _PopularProductsState extends State<PopularProducts> {
   late Future<List<Product>> futureData;
 
@@ -214,6 +213,7 @@ class _PopularProductsState extends State<PopularProducts> {
             itemCount: products.length,
             itemBuilder: (context, index) {
               final Product product = products[index];
+
               // Log the URLs for debugging
               print('Product ${product.title} image URLs: ${product.images}');
 
@@ -226,9 +226,6 @@ class _PopularProductsState extends State<PopularProducts> {
                     product: product,
                   ),
                 ),
-                images: [
-                  'http://192.168.0.104:8000/storage/images/NzAYAHSTSsgetu7K4hdiapC1xNnnO4Cf7rAacl5g.jpg'
-                ],
               );
             },
           );
@@ -274,31 +271,18 @@ class _PopularProductsState extends State<PopularProducts> {
 //               // Log the URLs for debugging
 //               print('Product ${product.title} image URLs: ${product.images}');
 //
-//               return FutureBuilder<List<String>?>(
-//                 future: ProductService.fetchImages(product.id),
-//                 builder: (context, snapshot) {
-//                   if (snapshot.connectionState == ConnectionState.waiting) {
-//                     return Center(child: CircularProgressIndicator());
-//                   } else if (snapshot.hasError) {
-//                     return Center(child: Text('Error: ${snapshot.error}'));
-//                   } else if (snapshot.data == null || snapshot.data!.isEmpty) {
-//                     return Center(child: Text('No images found'));
-//                   } else {
-//                     final List<String> images = snapshot.data!;
-//
-//                     return ProductCard(
-//                       product: product,
-//                       onPress: () => Navigator.pushNamed(
-//                         context,
-//                         DetailsScreen.routeName,
-//                         arguments: ProductDetailsArguments(
-//                           product: product,
-//                         ),
-//                       ),
-//                       images: images,
-//                     );
-//                   }
-//                 },
+//               return ProductCard(
+//                 product: product,
+//                 onPress: () => Navigator.pushNamed(
+//                   context,
+//                   DetailsScreen.routeName,
+//                   arguments: ProductDetailsArguments(
+//                     product: product,
+//                   ),
+//                 ),
+//                 images: [
+//                   'http://192.168.0.104:8000/storage/images/NzAYAHSTSsgetu7K4hdiapC1xNnnO4Cf7rAacl5g.jpg'
+//                 ],
 //               );
 //             },
 //           );
@@ -307,6 +291,8 @@ class _PopularProductsState extends State<PopularProducts> {
 //     );
 //   }
 // }
+
+
 
 class SectionTitle extends StatelessWidget {
   const SectionTitle({
@@ -336,16 +322,81 @@ class SectionTitle extends StatelessWidget {
   }
 }
 
+// class ProductCard extends StatelessWidget {
+//   final Product product;
+//   final GestureTapCallback onPress;
+//
+//   const ProductCard({
+//     Key? key,
+//     required this.product,
+//     required this.onPress,
+//   }) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: onPress,
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           const SizedBox(height: 8),
+//           Container(
+//             height: 150, // Adjust the height as needed
+//             child: ListView.builder(
+//               scrollDirection: Axis.horizontal,
+//               itemCount: product.images.length,
+//               itemBuilder: (context, index) {
+//                 return Image.network(
+//                   product.images[index], // Image URL
+//                   width: 150, // Adjust the width as needed
+//                   fit: BoxFit.cover, // Adjust the fit as needed
+//                   errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+//                     // Handle image load error
+//                     return Container(
+//                       width: 150,
+//                       color: Colors.grey[200],
+//                       child: Icon(Icons.error, color: Colors.red),
+//                     );
+//                   },
+//                 );
+//               },
+//             ),
+//           ),
+//           const SizedBox(height: 8),
+//           Text(
+//             product.title,
+//             style: Theme.of(context).textTheme.bodyMedium,
+//             maxLines: 2,
+//             overflow: TextOverflow.ellipsis,
+//           ),
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               Text(
+//                 "Rp. ${formatNumberWithDot(product.price)}",
+//                 style: const TextStyle(
+//                   fontSize: 14,
+//                   fontWeight: FontWeight.w600,
+//                   color: kPrimaryColor,
+//                 ),
+//               ),
+//               // Add other widgets as needed
+//             ],
+//           )
+//         ],
+//       ),
+//     );
+//   }
+// }
+
 
 class ProductCard extends StatelessWidget {
   final Product product;
-  final List<String> images; // List of image URLs associated with the product
   final GestureTapCallback onPress;
 
   const ProductCard({
     Key? key,
     required this.product,
-    required this.images,
     required this.onPress,
   }) : super(key: key);
 
@@ -361,10 +412,11 @@ class ProductCard extends StatelessWidget {
             height: 150, // Adjust the height as needed
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: images.length,
+              itemCount: product.images.length,
               itemBuilder: (context, index) {
                 return Image.network(
-                  images[index], // Image URL
+                  // product.images[index], // Image URL
+                  "http://192.168.0.104:8000/api/images/${product.id}" ,
                   width: 150, // Adjust the width as needed
                   fit: BoxFit.cover, // Adjust the fit as needed
                   errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
@@ -405,81 +457,6 @@ class ProductCard extends StatelessWidget {
     );
   }
 }
-
-// class ProductCard extends StatelessWidget {
-//   final Product product;
-//   final Future<Uint8List> imageData; // Future containing image data
-//   final GestureTapCallback onPress;
-//
-//   const ProductCard({
-//     Key? key,
-//     required this.product,
-//     required this.imageData,
-//     required this.onPress,
-//   }) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       onTap: onPress,
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           FutureBuilder<Uint8List>(
-//             future: imageData,
-//             builder: (context, snapshot) {
-//               if (snapshot.connectionState == ConnectionState.waiting) {
-//                 return CircularProgressIndicator(); // Show loading indicator while fetching image data
-//               } else if (snapshot.hasError) {
-//                 return Text('Error: ${snapshot.error}');
-//               } else {
-//                 // Display the image using Image.memory with the retrieved image data
-//                 return Image.memory(
-//                   snapshot.data!,
-//                   width: 150, // Adjust the width as needed
-//                   height: 150, // Adjust the height as needed
-//                   fit: BoxFit.cover, // Adjust the fit as needed
-//                   errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-//                     // Handle image load error
-//                     return Container(
-//                       width: 150,
-//                       height: 150,
-//                       color: Colors.grey[200],
-//                       child: Icon(Icons.error, color: Colors.red),
-//                     );
-//                   },
-//                 );
-//               }
-//             },
-//           ),
-//           const SizedBox(height: 8),
-//           Text(
-//             product.title,
-//             style: Theme.of(context).textTheme.bodyMedium,
-//             maxLines: 2,
-//             overflow: TextOverflow.ellipsis,
-//           ),
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               Text(
-//                 "Rp. ${formatNumberWithDot(product.price)}",
-//                 style: const TextStyle(
-//                   fontSize: 14,
-//                   fontWeight: FontWeight.w600,
-//                   color: kPrimaryColor,
-//                 ),
-//               ),
-//               // Add other widgets as needed
-//             ],
-//           )
-//         ],
-//       ),
-//     );
-//   }
-// }
-//
-//
 
 
 class IconBtnWithCounter extends StatelessWidget {
