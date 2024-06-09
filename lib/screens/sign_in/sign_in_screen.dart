@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
+import 'package:shop_app/services/auth_service.dart';
 import '../../components/no_account_text.dart';
 import '../../components/socal_card.dart';
 import 'components/sign_form.dart';
 
 class SignInScreen extends StatelessWidget {
   static String routeName = "/sign_in";
+  final AuthService _authService = Get.put(AuthService());
 
-  const SignInScreen({super.key});
+  SignInScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +39,7 @@ class SignInScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),
-                  const SignForm(),
+                  //SignForm(authService: _authService),
                   const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

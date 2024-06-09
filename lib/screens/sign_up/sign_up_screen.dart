@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/services/auth_service.dart';
 
 import '../../components/socal_card.dart';
 import '../../constants.dart';
@@ -7,7 +8,8 @@ import 'components/sign_up_form.dart';
 class SignUpScreen extends StatelessWidget {
   static String routeName = "/sign_up";
 
-  const SignUpScreen({super.key});
+  const SignUpScreen({Key? key, required AuthService authService}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +31,7 @@ class SignUpScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),
-                  const SignUpForm(),
+                  SignUpForm(), // Mengembalikan SignUpForm
                   const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -63,3 +65,4 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 }
+

@@ -1,0 +1,1 @@
+ D:\\Data\\TugasTelU\\SEM_6\\ABP\\TubesABPnew\\TubesABP\\.dart_tool\\flutter_build\\6a0012652b58c5343bdbbc4976041729\\native_assets.yaml: 
