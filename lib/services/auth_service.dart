@@ -69,6 +69,4 @@ class AuthService extends GetxController {
       throw Exception('Failed to connect to API');
     }
   }
-
-  void logout() {}
 }

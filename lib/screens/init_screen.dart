@@ -1,16 +1,156 @@
+// import 'package:flutter/material.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:shop_app/constants.dart';
+// import 'package:shop_app/screens/chat/chatPage.dart';
+// import 'package:shop_app/screens/favorite/favorite_screen.dart';
+// import 'package:shop_app/screens/home/home_screen.dart';
+// import 'package:shop_app/screens/input_product/inputPage.dart';
+// import 'package:shop_app/screens/profile/profile_screen.dart';
+//
+// const Color inActiveIconColor = Color(0xFFB6B6B6);
+//
+// class InitScreen extends StatefulWidget {
+//   const InitScreen({super.key});
+//
+//   static String routeName = "/";
+//
+//   @override
+//   State<InitScreen> createState() => _InitScreenState();
+// }
+//
+// class _InitScreenState extends State<InitScreen> {
+//   int currentSelectedIndex = 0;
+//
+//   void updateCurrentIndex(int index) {
+//     setState(() {
+//       currentSelectedIndex = index;
+//     });
+//   }
+//
+//   final pages = [
+//     const HomeScreen(),
+//     FavoriteScreen(),
+//     const InputProductPage(),
+//     const ChatPage(),
+//     ProfileScreen()
+//   ];
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: pages[currentSelectedIndex],
+//       bottomNavigationBar: BottomNavigationBar(
+//         onTap: updateCurrentIndex,
+//         currentIndex: currentSelectedIndex,
+//         showSelectedLabels: false,
+//         showUnselectedLabels: false,
+//         type: BottomNavigationBarType.fixed,
+//         items: [
+//           BottomNavigationBarItem(
+//             icon: SvgPicture.asset(
+//               "assets/icons/Shop Icon.svg",
+//               colorFilter: const ColorFilter.mode(
+//                 inActiveIconColor,
+//                 BlendMode.srcIn,
+//               ),
+//             ),
+//             activeIcon: SvgPicture.asset(
+//               "assets/icons/Shop Icon.svg",
+//               colorFilter: const ColorFilter.mode(
+//                 kPrimaryColor,
+//                 BlendMode.srcIn,
+//               ),
+//             ),
+//             label: "Home",
+//           ),
+//           BottomNavigationBarItem(
+//             icon: SvgPicture.asset(
+//               "assets/icons/Heart Icon.svg",
+//               colorFilter: const ColorFilter.mode(
+//                 inActiveIconColor,
+//                 BlendMode.srcIn,
+//               ),
+//             ),
+//             activeIcon: SvgPicture.asset(
+//               "assets/icons/Heart Icon.svg",
+//               colorFilter: const ColorFilter.mode(
+//                 kPrimaryColor,
+//                 BlendMode.srcIn,
+//               ),
+//             ),
+//             label: "Fav",
+//           ),BottomNavigationBarItem(
+//             icon: SvgPicture.asset(
+//               "assets/icons/plus.svg",
+//               colorFilter: const ColorFilter.mode(
+//                 inActiveIconColor,
+//                 BlendMode.srcIn,
+//               ),
+//             ),
+//             activeIcon: SvgPicture.asset(
+//               "assets/icons/plus.svg",
+//               colorFilter: const ColorFilter.mode(
+//                 kPrimaryColor,
+//                 BlendMode.srcIn,
+//               ),
+//             ),
+//             label: "Fav",
+//           ),
+//           BottomNavigationBarItem(
+//             icon: SvgPicture.asset(
+//               "assets/icons/Chat bubble Icon.svg",
+//               colorFilter: const ColorFilter.mode(
+//                 inActiveIconColor,
+//                 BlendMode.srcIn,
+//               ),
+//             ),
+//             activeIcon: SvgPicture.asset(
+//               "assets/icons/Chat bubble Icon.svg",
+//               colorFilter: const ColorFilter.mode(
+//                 kPrimaryColor,
+//                 BlendMode.srcIn,
+//               ),
+//             ),
+//             label: "Chat",
+//           ),
+//           BottomNavigationBarItem(
+//             icon: SvgPicture.asset(
+//               "assets/icons/User Icon.svg",
+//               colorFilter: const ColorFilter.mode(
+//                 inActiveIconColor,
+//                 BlendMode.srcIn,
+//               ),
+//             ),
+//             activeIcon: SvgPicture.asset(
+//               "assets/icons/User Icon.svg",
+//               colorFilter: const ColorFilter.mode(
+//                 kPrimaryColor,
+//                 BlendMode.srcIn,
+//               ),
+//             ),
+//             label: "Fav",
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/screens/chat/chatPage.dart';
 import 'package:shop_app/screens/favorite/favorite_screen.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/input_product/inputPage.dart';
 import 'package:shop_app/screens/profile/profile_screen.dart';
+import '../../services/auth_service.dart';
 
 const Color inActiveIconColor = Color(0xFFB6B6B6);
 
 class InitScreen extends StatefulWidget {
-  const InitScreen({super.key});
+  const InitScreen({Key? key});
 
   static String routeName = "/";
 
@@ -20,6 +160,7 @@ class InitScreen extends StatefulWidget {
 
 class _InitScreenState extends State<InitScreen> {
   int currentSelectedIndex = 0;
+  final AuthService _authService = AuthService();
 
   void updateCurrentIndex(int index) {
     setState(() {
@@ -27,18 +168,22 @@ class _InitScreenState extends State<InitScreen> {
     });
   }
 
-  final pages = [
-    const HomeScreen(),
-    FavoriteScreen(),
-    const InputProductPage(),
-    const ChatPage(),
-    ProfileScreen()
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[currentSelectedIndex],
+      body: Obx(() {
+        final userData = _authService.userData;
+        final userId = userData['id'] as int?;
+        final pages = [
+          const HomeScreen(),
+          if (userId != null) FavoriteScreen(userId: userId),
+          const InputProductPage(),
+          const ChatPage(),
+          ProfileScreen(),
+        ];
+
+        return pages[currentSelectedIndex];
+      }),
       bottomNavigationBar: BottomNavigationBar(
         onTap: updateCurrentIndex,
         currentIndex: currentSelectedIndex,
@@ -79,7 +224,8 @@ class _InitScreenState extends State<InitScreen> {
               ),
             ),
             label: "Fav",
-          ),BottomNavigationBarItem(
+          ),
+          BottomNavigationBarItem(
             icon: SvgPicture.asset(
               "assets/icons/plus.svg",
               colorFilter: const ColorFilter.mode(
@@ -135,3 +281,5 @@ class _InitScreenState extends State<InitScreen> {
     );
   }
 }
+
+

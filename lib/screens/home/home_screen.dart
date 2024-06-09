@@ -404,56 +404,73 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPress,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 8),
-          Container(
-            height: 150, // Adjust the height as needed
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: product.images.length,
-              itemBuilder: (context, index) {
-                return Image.network(
-                  // product.images[index], // Image URL
-                  "http://192.168.0.104:8000/api/images/${product.id}" ,
-                  width: 150, // Adjust the width as needed
-                  fit: BoxFit.cover, // Adjust the fit as needed
-                  errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                    // Handle image load error
-                    return Container(
-                      width: 150,
-                      color: Colors.grey[200],
-                      child: Icon(Icons.error, color: Colors.red),
-                    );
-                  },
-                );
-              },
-            ),
+      child :  Container(
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10), // Adjust the border radius as needed
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(0, 3), // changes position of shadow
+              ),
+            ],
           ),
-          const SizedBox(height: 8),
-          Text(
-            product.title,
-            style: Theme.of(context).textTheme.bodyMedium,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Rp. ${formatNumberWithDot(product.price)}",
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: kPrimaryColor,
+              const SizedBox(height: 8),
+              Center(
+                child: Container(
+                  height: 200, // Adjust the height as needed
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: product.images.length,
+                    itemBuilder: (context, index) {
+                      return Image.network(
+                        // product.images[index], // Image URL
+                        "http://192.168.0.104:8000/api/images/${product.id}",
+                        width: 200, // Adjust the width as needed
+                        fit: BoxFit.contain, // Adjust the fit as needed
+                        errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                          // Handle image load error
+                          return Container(
+                            width: 150,
+                            color: Colors.grey[200],
+                            child: Icon(Icons.error, color: Colors.red),
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
               ),
-              // Add other widgets as needed
+              const SizedBox(height: 8),
+              Text(
+                product.title,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Rp. ${formatNumberWithDot(product.price)}",
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                  // Add other widgets as needed
+                ],
+              )
             ],
-          )
-        ],
-      ),
+          ),
+        )
     );
   }
 }

@@ -1,4 +1,4 @@
-#Thu Jun 06 13:26:12 WIB 2024
+#Sun Jun 09 20:41:24 WIB 2024
 base.0=D\:\\Data\\TugasTelU\\SEM_6\\ABP\\TubesABPnew\\TubesABP\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=D\:\\Data\\TugasTelU\\SEM_6\\ABP\\TubesABPnew\\TubesABP\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\0\\classes.dex
 base.2=D\:\\Data\\TugasTelU\\SEM_6\\ABP\\TubesABPnew\\TubesABP\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex

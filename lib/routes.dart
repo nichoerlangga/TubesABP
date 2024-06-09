@@ -20,7 +20,7 @@ import 'package:shop_app/screens/input_product/inputPage.dart';
 
 // We use name route
 // All our routes will be available here
-final Map<String, WidgetBuilder> routes = {
+final Map<String, WidgetBuilder>  routes = {
   SignInScreen.routeName: (context) => SignInPage(),
   SignUpScreen.routeName: (context) => SignUpScreen(authService: AuthService()),
   InitScreen.routeName: (context) => const InitScreen(),
@@ -31,12 +31,14 @@ final Map<String, WidgetBuilder> routes = {
   CompleteProfileScreen.routeName: (context) => const CompleteProfileScreen(),
   OtpScreen.routeName: (context) => const OtpScreen(),
   HomeScreen.routeName: (context) => const HomeScreen(),
-  // ProductsScreen.routeName: (context) => const ProductsScreen(),
   DetailsScreen.routeName: (context) => const DetailsScreen(),
-  // CartScreen.routeName: (context) => const CartScreen(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
   AccountDetailsScreen.routeName: (context) => AccountDetailsScreen(),
   InputProductPage.routeName: (context) => const InputProductPage(),
-  FavoriteScreen.routeName: (context) => FavoriteScreen(),
+  FavoriteScreen.routeName: (context) {
+    final authService = AuthService(); // Initialize AuthService here
+    final userId = authService.userData?['id'];
+    return FavoriteScreen(userId: userId);
+  },
   ChatPage.routeName: (context) => const ChatPage(),
 };

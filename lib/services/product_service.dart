@@ -48,6 +48,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import '../models/Product.dart';
+import 'package:shop_app/services/auth_service.dart';
 
 class ProductService {
 
@@ -116,5 +117,35 @@ class ProductService {
       throw Exception('Failed to fetch image: $e');
     }
   }
+
+  static Future<List<Product>> fetchWishlist(int userId) async {
+    try {
+      // Fetch the wishlist using the user ID
+      final response = await http.get(
+        Uri.parse('http://192.168.0.104:8000/api/wishlist/$userId'),
+        headers: {"Accept": "application/json"},
+      ).timeout(Duration(seconds: 45));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonData = json.decode(response.body);
+        final List<dynamic> productsData = jsonData['products'];
+
+        // Parse the products from the wishlist data
+        List<Product> wishlist = [];
+        for (var item in productsData) {
+          final Product product = Product.fromJson(item);
+          wishlist.add(product);
+        }
+
+        return wishlist;
+      } else {
+        throw Exception('Failed to load wishlist');
+      }
+    } catch (e) {
+      print('Error: $e'); // Print the error for debugging
+      rethrow;
+    }
+  }
+
 
 }
