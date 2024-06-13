@@ -39,7 +39,7 @@ class _ProfilePicState extends State<ProfilePic> {
     super.initState();
     _authService = Get.put(AuthService());
     final userData = _authService.userData;
-    idUser = userData["idUser"];
+    idUser = userData["id"];
     debugPrint('Testing image URL: ${widget.imageUrl}');
     _testImageUrl(widget.imageUrl);
   }
@@ -58,6 +58,10 @@ class _ProfilePicState extends State<ProfilePic> {
       }
     } catch (e) {
       debugPrint('Failed to access image URL: $e');
+      // Handle error gracefully, e.g., set a default image or show an error message
+      setState(() {
+        _isValidImage = false;
+      });
     }
   }
 
@@ -225,7 +229,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               final userData = _authService.userData;
               final String? name = userData["name"];
               final String? imageUrl = userData["image"];
-              final String baseUrl = 'http://192.168.1.26:8000/';
+              final String baseUrl = 'http://192.168.0.104:8000/';
               return ProfilePic(
                 name: name ?? "Unknown",
                 imageUrl: imageUrl != null ? baseUrl + imageUrl : "",

@@ -138,6 +138,4 @@ class ProductService {
       rethrow;
     }
   }
-
-
 }
