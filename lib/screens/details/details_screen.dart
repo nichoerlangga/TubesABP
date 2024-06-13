@@ -85,7 +85,7 @@ class DetailInformation extends StatelessWidget {
 }
 
 
-class ProductDescription extends StatelessWidget {
+class ProductDescription extends StatefulWidget {
   const ProductDescription({
     Key? key,
     required this.product,
@@ -96,66 +96,60 @@ class ProductDescription extends StatelessWidget {
   final GestureTapCallback? pressOnSeeMore;
 
   @override
+  _ProductDescriptionState createState() => _ProductDescriptionState();
+}
+
+class _ProductDescriptionState extends State<ProductDescription> {
+  bool isFavorite = false;
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Text(
-            product.title,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                widget.product.title,
+                style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    isFavorite = !isFavorite; // Toggle status favorit
+                  });
+                },
+                child: SvgPicture.asset(
+                  "assets/icons/Heart Icon_2.svg",
+                  color: isFavorite ? const Color(0xFFFF4848) : const Color(0xFFDBDEE4),
+                  height: 24,
+                ),
+              ),
+            ],
           ),
         ),
-        // Align(
-        //   alignment: Alignment.centerRight,
-        //   child: Container(
-        //     padding: const EdgeInsets.all(16),
-        //     width: 48,
-        //     decoration: BoxDecoration(
-        //       color: product.isFavourite
-        //           ? const Color(0xFFFFE6E6)
-        //           : const Color(0xFFF5F6F9),
-        //       borderRadius: const BorderRadius.only(
-        //         topLeft: Radius.circular(20),
-        //         bottomLeft: Radius.circular(20),
-        //       ),
-        //     ),
-        //     child: SvgPicture.asset(
-        //       "assets/icons/Heart Icon_2.svg",
-        //       colorFilter: ColorFilter.mode(
-        //           product.isFavourite
-        //               ? const Color(0xFFFF4848)
-        //               : const Color(0xFFDBDEE4),
-        //           BlendMode.srcIn),
-        //       height: 16,
-        //     ),
-        //   ),
-        // ),
         Padding(
-          padding: const EdgeInsets.only(
-            left: 20,
-            right: 64,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Text(
-            product.description,
+            widget.product.description,
             maxLines: 3,
           ),
         ),
         Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 12,
-            ),
-            child: Text(
-              'Rp. ' + formatNumberWithDot(product.price),
-              style: TextStyle(color: kPrimaryColor, fontSize: 22, fontWeight: FontWeight.bold),
-            )
-        )
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          child: Text(
+            'Rp. ' + formatNumberWithDot(widget.product.price),
+            style: TextStyle(color: kPrimaryColor, fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+        ),
       ],
     );
   }
 }
+
 
 String formatNumberWithDot(int number) {
   String strNumber = number.toString();
@@ -398,29 +392,29 @@ class DetailsScreen extends StatelessWidget {
         actions: [
           Row(
             children: [
-              Container(
-                margin: const EdgeInsets.only(right: 20),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                // child: Row(
-                //   children: [
-                //     const Text(
-                //       "4.7",
-                //       style: TextStyle(
-                //         fontSize: 14,
-                //         color: Colors.black,
-                //         fontWeight: FontWeight.w600,
-                //       ),
-                //     ),
-                //     const SizedBox(width: 4),
-                //     // Replace with your star icon
-                //     // SvgPicture.asset("assets/icons/Star Icon.svg"),
-                //   ],
-                // ),
-              ),
+              // Container(
+              //   margin: const EdgeInsets.only(right: 20),
+              //   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              //   decoration: BoxDecoration(
+              //     color: Colors.white,
+              //     borderRadius: BorderRadius.circular(14),
+              //   ),
+              //   // child: Row(
+              //   //   children: [
+              //   //     const Text(
+              //   //       "4.7",
+              //   //       style: TextStyle(
+              //   //         fontSize: 14,
+              //   //         color: Colors.black,
+              //   //         fontWeight: FontWeight.w600,
+              //   //       ),
+              //   //     ),
+              //   //     const SizedBox(width: 4),
+              //   //     // Replace with your star icon
+              //   //     // SvgPicture.asset("assets/icons/Star Icon.svg"),
+              //   //   ],
+              //   // ),
+              // ),
             ],
           ),
         ],

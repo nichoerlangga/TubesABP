@@ -66,15 +66,57 @@ class _ProfilePicState extends State<ProfilePic> {
   }
 
   Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    try {
+      final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    if (pickedFile != null) {
-      setState(() {
-        _image = File(pickedFile.path);
-        _isValidImage = false;
-      });
+      if (pickedFile != null) {
+        setState(() {
+          _image = File(pickedFile.path);
+        });
+
+        // Call the method to upload the image
+        await _uploadImage(_image!);
+      }
+    } catch (e) {
+      print('Error picking image: $e');
     }
   }
+
+  Future<void> _uploadImage(File image) async {
+    try {
+      final userData = _authService.userData;
+      final userId = userData["id"];
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse('http://192.168.0.104:8000/api/profile/update-image/$userId'),
+      );
+
+      request.files.add(await http.MultipartFile.fromPath('image', image.path));
+      request.headers.addAll({
+        'Authorization': 'Bearer $token',
+        'Accept': 'application/json',
+      });
+
+      var response = await request.send();
+
+      if (response.statusCode == 200) {
+        // Successfully updated profile image
+        print('Profile image updated successfully.');
+        // Update profile image URL
+        // _fetchProfileImage();
+      } else {
+        // Failed to update profile image
+        print('Failed to update profile image.');
+      }
+    } catch (e) {
+      print('Error uploading image: $e');
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
