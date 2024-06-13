@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:shop_app/screens/category/categoryPage.dart';
 import 'package:shop_app/screens/sign_in/components/sign_form.dart';
 import 'package:shop_app/services/auth_service.dart';
 import 'screens/forgot_password/forgot_password_screen.dart';
@@ -42,4 +43,5 @@ final Map<String, WidgetBuilder>  routes = {
   // },
   FavoriteScreen.routeName: (context) => FavoriteScreen(),
   ChatPage.routeName: (context) => const ChatPage(),
+  CategoryScreen.routeName: (context) => CategoryScreen(categoryId:ModalRoute.of(context)!.settings.arguments as int),
 };

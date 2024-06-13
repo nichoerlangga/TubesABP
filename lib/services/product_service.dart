@@ -138,4 +138,28 @@ class ProductService {
       rethrow;
     }
   }
+
+  static Future<List<Product>?> fetchCategoryBased(int Category) async {
+    try {
+      // Fetch the wishlist using the user ID
+      final response = await http.get(
+        Uri.parse('$baseUrl/products'),
+        headers: {"Accept": "application/json"},
+      ).timeout(Duration(seconds: 45));
+
+      if (response.statusCode == 200) {
+        List<dynamic> products = json.decode(response.body)['products'];
+        List<Product> filteredProducts = products.map((data) => Product.fromJson(data)).where((product) => product.category == Category).toList();
+
+        return filteredProducts;
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      print('Error: $e'); // Print the error for debugging
+      rethrow;
+    }
+  }
 }
+
+

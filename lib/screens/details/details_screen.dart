@@ -6,6 +6,45 @@ import '../../screens/chat/chatPage.dart';
 import '../../../constants.dart';
 
 // Komponen DetailInformation
+// class DetailInformation extends StatelessWidget {
+//   final Product product;
+//   final List<Category> categories;
+//
+//   const DetailInformation({required this.product, required this.categories});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     // Find the category object corresponding to the product's category ID
+//     Category? productCategory = categories.firstWhere(
+//           (category) => category.id == product.category,
+//       orElse: () => Category(id: 0, catName: 'Unknown'), // Default category if not found
+//     );
+//
+//     return Padding(
+//       padding: const EdgeInsets.all(16.0),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Text(
+//             'Category: ' + productCategory.catName, // Display category name
+//             style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+//           ),
+//           SizedBox(height: 8.0), // Adds some space between the texts
+//           Text(
+//             'Kondisi: ' + product.condition,
+//             style: TextStyle(fontSize: 16.0),
+//           ),
+//           SizedBox(height: 8.0), // Adds some space between the texts
+//           Text(
+//             'Lokasi: Bandung',
+//             style: TextStyle(fontSize: 16.0),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
 class DetailInformation extends StatelessWidget {
   final Product product;
   final List<Category> categories;
@@ -31,12 +70,12 @@ class DetailInformation extends StatelessWidget {
           ),
           SizedBox(height: 8.0), // Adds some space between the texts
           Text(
-            'Kondisi: ' + product.condition,
+            'Condition: ' + product.condition,
             style: TextStyle(fontSize: 16.0),
           ),
           SizedBox(height: 8.0), // Adds some space between the texts
           Text(
-            'Lokasi: Bandung',
+            'Location: Bandung', // You can replace with actual location if available
             style: TextStyle(fontSize: 16.0),
           ),
         ],
@@ -194,16 +233,142 @@ class TopRoundedContainer extends StatelessWidget {
   }
 }
 
+// class DetailsScreen extends StatelessWidget {
+//   static String routeName = "/details";
+//
+//   const DetailsScreen({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final ProductDetailsArguments agrs =
+//     ModalRoute.of(context)!.settings.arguments as ProductDetailsArguments;
+//     final product = agrs.product;
+//     return Scaffold(
+//       extendBody: true,
+//       extendBodyBehindAppBar: true,
+//       backgroundColor: const Color(0xFFF5F6F9),
+//       appBar: AppBar(
+//         backgroundColor: Colors.transparent,
+//         elevation: 0,
+//         leading: Padding(
+//           padding: const EdgeInsets.all(8.0),
+//           child: ElevatedButton(
+//             onPressed: () {
+//               Navigator.pop(context);
+//             },
+//             style: ElevatedButton.styleFrom(
+//               shape: const CircleBorder(),
+//               padding: EdgeInsets.zero,
+//               elevation: 0,
+//               backgroundColor: Colors.white,
+//             ),
+//             child: const Icon(
+//               Icons.arrow_back_ios_new,
+//               color: Colors.black,
+//               size: 20,
+//             ),
+//           ),
+//         ),
+//         actions: [
+//           Row(
+//             children: [
+//               Container(
+//                 margin: const EdgeInsets.only(right: 20),
+//                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+//                 decoration: BoxDecoration(
+//                   color: Colors.white,
+//                   borderRadius: BorderRadius.circular(14),
+//                 ),
+//                 child: Row(
+//                   children: [
+//                     const Text(
+//                       "4.7",
+//                       style: TextStyle(
+//                         fontSize: 14,
+//                         color: Colors.black,
+//                         fontWeight: FontWeight.w600,
+//                       ),
+//                     ),
+//                     const SizedBox(width: 4),
+//                     SvgPicture.asset("assets/icons/Star Icon.svg"),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ],
+//       ),
+//       body: ListView(
+//         children: [
+//           ProductImages(product: product),
+//           TopRoundedContainer(
+//             color: Colors.white,
+//             child: Column(
+//               children: [
+//                 ProductDescription(
+//                   product: product,
+//                   pressOnSeeMore: () {},
+//                 ),
+//                 TopRoundedContainer(
+//                   color: const Color(0xFFF6F7F9),
+//                   child: Column(
+//                     children: [
+//                       DetailInformation(product: product, categories: [],),
+//                     ],
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//       bottomNavigationBar: TopRoundedContainer(
+//         color: Colors.white,
+//         child: SafeArea(
+//           child: Padding(
+//             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+//             child: ElevatedButton(
+//               onPressed: () {
+//                 Navigator.pushNamed(context, ChatPage.routeName);
+//               },
+//               child: const Text("Chat"),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+//
+// class ProductDetailsArguments {
+//   final Product product;
+//
+//   ProductDetailsArguments({required this.product});
+// }
+
 class DetailsScreen extends StatelessWidget {
   static String routeName = "/details";
 
-  const DetailsScreen({super.key});
+  const DetailsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final ProductDetailsArguments agrs =
+    final ProductDetailsArguments args =
     ModalRoute.of(context)!.settings.arguments as ProductDetailsArguments;
-    final product = agrs.product;
+    final product = args.product;
+
+    // Mocked categories list for demonstration purpose
+    List<Category> categories = [
+      Category(id: 1, catName: "Elektronik"),
+      Category(id: 2, catName: "Hewan"),
+      Category(id: 3, catName: "Kendaraan"),
+      Category(id: 4, catName: "Pakaian"),
+      Category(id: 5, catName: "Mainan"),
+      Category(id: 6, catName: "Tanaman"),
+      Category(id: 7, catName: "Perabotan"),
+      // Add more categories as needed
+    ];
+
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
@@ -240,20 +405,21 @@ class DetailsScreen extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(14),
                 ),
-                child: Row(
-                  children: [
-                    const Text(
-                      "4.7",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    SvgPicture.asset("assets/icons/Star Icon.svg"),
-                  ],
-                ),
+                // child: Row(
+                //   children: [
+                //     const Text(
+                //       "4.7",
+                //       style: TextStyle(
+                //         fontSize: 14,
+                //         color: Colors.black,
+                //         fontWeight: FontWeight.w600,
+                //       ),
+                //     ),
+                //     const SizedBox(width: 4),
+                //     // Replace with your star icon
+                //     // SvgPicture.asset("assets/icons/Star Icon.svg"),
+                //   ],
+                // ),
               ),
             ],
           ),
@@ -261,7 +427,9 @@ class DetailsScreen extends StatelessWidget {
       ),
       body: ListView(
         children: [
+          // Display product images
           ProductImages(product: product),
+          // Display product description and price
           TopRoundedContainer(
             color: Colors.white,
             child: Column(
@@ -270,11 +438,12 @@ class DetailsScreen extends StatelessWidget {
                   product: product,
                   pressOnSeeMore: () {},
                 ),
+                // Display detailed information including category
                 TopRoundedContainer(
                   color: const Color(0xFFF6F7F9),
                   child: Column(
                     children: [
-                      DetailInformation(product: product, categories: [],),
+                      DetailInformation(product: product, categories: categories),
                     ],
                   ),
                 ),

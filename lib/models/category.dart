@@ -20,8 +20,8 @@ class Category {
 }
 
 class CategoryService {
-  static Future<List<Category>> fetchProducts() async {
-    final response = await http.get(Uri.parse('http://192.168.0.104:8000/api/products/home'));
+  static Future<List<Category>> fetchCategories() async {
+    final response = await http.get(Uri.parse('http://192.168.0.104:8000/api/products'));
     if (response.statusCode == 200) {
       final List<dynamic> jsonProducts = json.decode(response.body)['category'];
       return jsonProducts.map((jsonProduct) => Category.fromJson(jsonProduct)).toList();

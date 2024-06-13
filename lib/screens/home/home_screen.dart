@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/screens/category/categoryPage.dart';
 import 'package:shop_app/services/product_service.dart';
 import '../../constants.dart';
 import 'package:shop_app/screens/details/details_screen.dart';
@@ -117,11 +118,11 @@ class Categories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> categories = [
-      {"icon": "assets/icons/Flash Icon.svg", "text": "Flash Deal"},
-      {"icon": "assets/icons/Bill Icon.svg", "text": "Bill"},
-      {"icon": "assets/icons/Game Icon.svg", "text": "Game"},
-      {"icon": "assets/icons/Gift Icon.svg", "text": "Daily Gift"},
-      {"icon": "assets/icons/Discover.svg", "text": "More"},
+      {"icon": "assets/icons/Flash Icon.svg", "text": "Elektronik"},
+      {"icon": "assets/icons/pets.svg", "text": "Hewan"},
+      {"icon": "assets/icons/vehicle.svg", "text": "Kendaraan"},
+      {"icon": "assets/icons/cloth.svg", "text": "Pakaian"},
+      {"icon": "assets/icons/toys.svg", "text": "Mainan"},
     ];
     return Padding(
       padding: const EdgeInsets.all(20),
@@ -133,7 +134,13 @@ class Categories extends StatelessWidget {
               (index) => CategoryCard(
             icon: categories[index]["icon"],
             text: categories[index]["text"],
-            press: () {},
+            press: () {
+              Navigator.pushNamed(
+                context,
+                CategoryScreen.routeName,
+                arguments: index+1, // Mengirimkan index langsung sebagai argumen
+              );
+            },
           ),
         ),
       ),

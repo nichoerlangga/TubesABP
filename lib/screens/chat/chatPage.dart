@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/chatUsersModel.dart';
-import 'package:shop_app/widgets/conversationList.dart';
-import 'package:shop_app/constants.dart';
-
-import '../init_screen.dart';
+import 'package:shop_app/widgets/conversationList.dart'; // Sesuaikan dengan struktur proyek Anda
+import 'package:shop_app/constants.dart'; // Sesuaikan dengan struktur proyek Anda
+import 'chatDetailPage.dart'; // Sesuaikan dengan struktur proyek Anda
 
 class ChatPage extends StatefulWidget {
   static String routeName = "/chat_page";
 
-  const ChatPage({super.key});
+  const ChatPage({Key? key}) : super(key: key);
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -16,14 +15,14 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   List<ChatUsers> chatUsers = [
-    ChatUsers(name: "Jane Russel", messageText: "Awesome Setup", imageURL: "images/userImage1.jpeg", time: "Now"),
-    ChatUsers(name: "Glady's Murphy", messageText: "That's Great", imageURL: "images/userImage2.jpeg", time: "Yesterday"),
-    ChatUsers(name: "Jorge Henry", messageText: "Hey where are you?", imageURL: "images/userImage3.jpeg", time: "31 Mar"),
-    ChatUsers(name: "Philip Fox", messageText: "Busy! Call me in 20 mins", imageURL: "images/userImage4.jpeg", time: "28 Mar"),
-    ChatUsers(name: "Debra Hawkins", messageText: "Thank you, It's awesome", imageURL: "images/userImage5.jpeg", time: "23 Mar"),
-    ChatUsers(name: "Jacob Pena", messageText: "Will update you in evening", imageURL: "images/userImage6.jpeg", time: "17 Mar"),
-    ChatUsers(name: "Andrey Jones", messageText: "Can you please share the file?", imageURL: "images/userImage7.jpeg", time: "24 Feb"),
-    ChatUsers(name: "John Wick", messageText: "How are you?", imageURL: "images/userImage8.jpeg", time: "18 Feb"),
+    ChatUsers(name: "test1234", messageText: "Apakah produk Macan bisa ditaw...", imageURL: "", time: "01 Jan"),
+    ChatUsers(name: "hamyus", messageText: "Haloo", imageURL: "", time: "02 Jan"),
+    ChatUsers(name: "Rianadr", messageText: "Apakah produk Kaos Nascar Vint...", imageURL: "", time: "22 Apr"),
+    ChatUsers(name: "Rizki J", messageText: "Apakah masih ready?", imageURL: "", time: "04 Jan"),
+    ChatUsers(name: "Hamyuzz", messageText: "Heii", imageURL: "", time: "02 Jan"),
+    ChatUsers(name: "fauby", messageText: "halo apakah barang ini ready?", imageURL: "", time: "22 Apr"),
+    // ChatUsers(name: "Andrey Jones", messageText: "Can you please share the file?", imageURL: "", time: "24 Feb"),
+    // ChatUsers(name: "John Wick", messageText: "How are you?", imageURL: "", time: "18 Feb"),
   ];
 
   @override
@@ -32,13 +31,13 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => InitScreen())),
+          onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           "Chat",
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(color: kPrimaryColor), // Replace kPrimaryColor with your desired color
+          style: Theme.of(context).textTheme.headlineLarge?.copyWith(color: kPrimaryColor), // Sesuaikan dengan warna yang Anda inginkan
         ),
-        centerTitle: true, // Align the title to the center
+        centerTitle: true, // Ratakan judul ke tengah
       ),
       body: ListView.builder(
         itemCount: chatUsers.length,
@@ -49,7 +48,15 @@ class _ChatPageState extends State<ChatPage> {
             messageText: chatUsers[index].messageText,
             imageUrl: chatUsers[index].imageURL,
             time: chatUsers[index].time,
-            isMessageRead: (index == 0 || index == 3) ? true : false, press: () {  },
+            isMessageRead: (index == 0 || index == 3),
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChatDetailPage(chatUser: chatUsers[index]),
+                ),
+              );
+            },
           );
         },
       ),
